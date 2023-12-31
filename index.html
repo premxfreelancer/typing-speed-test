@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Test</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">Typing Speed Test</div>
+
+<div class="flexbox">
+  <textarea placeholder="type text here" id="inputTextarea" rows="4" cols="50" oninput="countWordsAndCharacters()"></textarea>
+  <p>Words: <span id="wordCount">0</span></p>
+  <p>Characters: <span id="charCount">0</span></p>
+</div>
+
+<hr>
+
+<div class="flexbox">
+  <div id="timer" class="timer">1:00</div>
+  <button onclick="startTimer()" class="button">Start Timer</button>
+</div>
+
+<script>
+  var timerInterval;
+  var timeRemaining = 60;
+
+  function startTimer() {
+    clearInterval(timerInterval); // Clear any existing intervals
+
+    // Update the timer display every second
+    timerInterval = setInterval(function() {
+      timeRemaining--;
+      updateTimerDisplay();
+
+      if (timeRemaining === 0) {
+        clearInterval(timerInterval);
+        alert("Time's up!");
+        // You can add additional actions to perform when the timer reaches 0
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    var minutes = Math.floor(timeRemaining / 60);
+    var seconds = timeRemaining % 60;
+
+    // Ensure that seconds are displayed with two digits (e.g., 05)
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    // Update the timer display
+    document.getElementById('timer').innerText = minutes + ":" + seconds;
+  }
+
+  function countWordsAndCharacters() {
+    // Get the input textarea value
+    var inputText = document.getElementById('inputTextarea').value;
+
+    // Count words (assuming words are separated by spaces)
+    var wordCount = inputText.split(/\s+/).filter(function(word) {
+      return word.length > 0;
+    }).length;
+
+    // Count characters
+    var charCount = inputText.length;
+
+    // Update the word and character count in the HTML
+    document.getElementById('wordCount').innerText = wordCount;
+    document.getElementById('charCount').innerText = charCount;
+  }
+</script>
+
+</body>
+</html>
